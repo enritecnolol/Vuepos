@@ -1,31 +1,128 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <template>
+      <navbar v-if="isLogged" />
+      <secondNavBar  v-if="isLogged"/>
+
+<!--      <div class="page-header">-->
+<!--        <div class="page-header-content header-elements-md-inline">-->
+<!--          <div class="page-title d-flex">-->
+<!--            <h4>-->
+<!--              <i class="icon-arrow-left52 mr-2"></i>-->
+<!--              <span class="font-weight-semibold">Home</span>-->
+<!--              - test-->
+<!--            </h4>-->
+<!--            <a href="#" class="header-elements-toggle text-default d-md-none">-->
+<!--              <i class="icon-more"></i>-->
+<!--            </a>-->
+<!--          </div>-->
+
+<!--          <div class="header-elements d-none py-0 mb-3 mb-md-0">-->
+<!--            <div class="breadcrumb">-->
+<!--              <a href="index.html" class="breadcrumb-item">-->
+<!--                <i class="icon-home2 mr-2"></i> Home-->
+<!--              </a>-->
+<!--              <span class="breadcrumb-item active">test</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+      <!-- Page content -->
+      <div class="page-content pt-0">
+        <!-- Main content -->
+        <div class="content-wrapper" style="overflow: hidden">
+          <!-- Content area -->
+          <transition name="fade" mode="out-in" :duration="{ enter: 800, leave: '350ms'}">
+            <router-view></router-view>
+          </transition>
+          <!-- /content area -->
+        </div>
+        <!-- /main content -->
+        <notifications group="foo" position="bottom right"/>
+      </div>
+      <!-- /page content -->
+
+      <div
+        class="navbar navbar-expand-lg navbar-light d-none d-lg-block d-xl-block navbar-static-bottom navbar-fixed-bottom"
+      >
+        <div class="text-center d-lg-none w-100">
+          <button
+            type="button"
+            class="navbar-toggler dropdown-toggle"
+            data-toggle="collapse"
+            data-target="#navbar-footer"
+          >
+            <i class="icon-unfold mr-2"></i>
+            Footer
+          </button>
+        </div>
+
+        <div class="navbar-collapse collapse" id="navbar-footer">
+          <span class="navbar-text">&copy; 2019 Tomas</span>
+
+          <ul class="navbar-nav ml-lg-auto">
+            <li class="nav-item">
+              <a href="#" class="navbar-nav-link">
+                <i class="icon-lifebuoy"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
+<script>
+import "./assets/global_assets/js/main/jquery.min.js";
+import "./assets/css/bootstrap.min.css";
+import "./assets/css/bootstrap_limitless.min.css";
+import "./assets/css/layout.min.css";
+import "./assets/css/components.min.css";
+import "./assets/css/colors.min.css";
+import "./assets/global_assets/css/icons/icomoon/styles.css";
+import "bootstrap";
+import "./assets/global_assets/js/plugins/loaders/blockui.min.js";
+import "./assets/global_assets/js/plugins/ui/slinky.min.js";
+import "./assets/global_assets/js/plugins/ui/sticky.min.js";
+import "./assets/css/animate.css";
+import "./assets/global_assets/js/plugins/extensions/jquery_ui/interactions.min.js";
+import "./assets/js/app.js";
+import {http} from "./http/axios";
+import navbar from "./components/layout/navbar";
+import secondNavBar from "./components/layout/secondNavBar";
 
+export default {
+  name: "App",
+  components: {
+    navbar,
+    secondNavBar
+  },
+  created(){
+    this.setupHttpClient();
+  },
+  methods: {
+    setupHttpClient() {
+      http.setToken(localStorage.getItem('token'));
+    },
+  },
+  computed:{
+    isLogged () {
+      return this.$store.getters['account/isLogged'];
+    }
+  }
+};
+</script>
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
+  @import url('https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900');
+  #app{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+  body {
+    /*background: url('./assets/images/stripes-light.png') repeat;*/
+    min-width: 600px;
+  }
 </style>

@@ -1,0 +1,43 @@
+.v-select .dropdown-menu {
+    max-height: 180px !important;
+}
+.v-select .selected-tag {
+    display: flex;
+    align-items: center;
+    background-color: #0076BC;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: white;
+    line-height: 1.42857143; /* Normalize line height */
+    margin: 4px 2px 0 2px;
+    padding: 0 0.25em;
+    transition: opacity .25s;
+    font-size: 9px;
+}
+.v-select .dropdown-menu .active > a {
+    color: white;
+    background: #0076BC;
+}
+
+.v-select .dropdown-menu > .highlight > a {
+    /*
+     * required to override bootstrap 3's
+     * .dropdown-menu > li > a:hover {} styles
+     */
+    background: #0076BC;
+    color: #fff;
+}
+.multiselect__select{
+    padding: 8px 0 8px 0 !important;
+    /*display: none !important;*/
+}
+.multiselect__tags{
+    padding: 8px 0 0 8px !important;
+}
+.multiselect--active{
+        width: 200px !important;
+}
+
+.vue-monthly-picker .month-picker-wrapper{
+    min-width: 5px !important;
+}
