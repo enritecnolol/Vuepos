@@ -27,47 +27,43 @@
               </div>
             </div>
             <div class="col-md-12" style="margin-top: 20px">
-              <ProductForm v-if="showForm"></ProductForm>
+              <ProductForm
+                      ref="ProductForm"
+                      v-show="showForm"
+                      :loading="loading"
+                      @insert="insertProduct"
+                      @edit="editProduct"
+              />
             </div>
             <div class="col-md-12" style="margin: 10px" v-show="!showForm">
-              <div class="table-responsive">
-                <table class="table table-bordered">
-                  <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Eugene</td>
-                    <td>Kopyov</td>
-                    <td>@Kopyov</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Victoria</td>
-                    <td>Baker</td>
-                    <td>@Vicky</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>James</td>
-                    <td>Alexander</td>
-                    <td>@Alex</td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Franklin</td>
-                    <td>Morrison</td>
-                    <td>@Frank</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
+              <standardTable
+                      v-if="!showForm"
+                      :header="header"
+                      :loading="loading"
+                      :data="table_data"
+                      :edit-body="true"
+                      :pagination="pagination"
+                      style="margin-top: 20px"
+                      @changePage="changePage"
+              >
+                <template v-slot:extra-th>
+                  <th></th>
+                </template>
+                <template v-slot:customization-body="{data}">
+                  <td>{{data.id}}</td>
+                  <td><img :src="data.img" width="60" alt=""></td>
+                  <td>{{data.name}}</td>
+                  <td>${{formatMoney(data.price)}}</td>
+                  <td>{{data.barcode}}</td>
+                  <td>{{CategoryName(data.categoria_id)}}</td>
+                </template>
+                <template v-slot:extra-td="{data}">
+                  <td>
+                    <Button class="btn btn-warning" @click="EditProduct(data)"><i class="icon-pencil"></i> Editar</Button>
+                    <Button class="btn btn-danger" style="margin-left: 10px" @click="deleteProduct(data)"><i class="icon-trash"></i> Eliminar</Button>
+                  </td>
+                </template>
+              </standardTable>
             </div>
           </div>
         </div>
@@ -79,20 +75,185 @@
 <script>
   import ProductForm from "../components/form/ProductForm";
   import Categories from "./Categories";
+  import { ProductsServices } from "../service/ProductsService";
+  import standardTable from "../components/table/standardTable";
+  import { mapState } from 'vuex'
   export default {
     components:{
       ProductForm,
-      Categories
+      Categories,
+      standardTable
     },
     data(){
       return {
-        showForm: false
+        size_paginate:5,
+        loading:false,
+        showForm:false,
+        header:[],
+        table_data:[],
+        pagination:{}
       }
     },
+    computed:{
+      ...mapState({
+        categories: state => state.categories.categories
+      })
+    },
     methods:{
-      openCategoriesModal(){
+      formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",")
+      {
+        try {
+          decimalCount = Math.abs(decimalCount);
+          decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
 
-      }
+          const negativeSign = amount < 0 ? "-" : "";
+
+          let i = parseInt(
+                  (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
+          ).toString();
+          let j = i.length > 3 ? i.length % 3 : 0;
+
+          return (
+                  negativeSign +
+                  (j ? i.substr(0, j) + thousands : "") +
+                  i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) +
+                  (decimalCount
+                          ? decimal +
+                          Math.abs(amount - i)
+                                  .toFixed(decimalCount)
+                                  .slice(2)
+                          : "")
+          );
+        } catch (e) {
+          console.log(e);
+        }
+      },
+      changePage({action, page})
+      {
+        if(action == 'next' && !page){
+          this.getProductsPaginate(this.pagination.next_page_url)
+        }else if (action == 'previous' && !page){
+          this.getProductsPaginate(this.pagination.prev_page_url)
+        }else{
+          this.getProductsPaginate(this.pagination.path+'?page='+page)
+        }
+      },
+      getProductsPaginate(url)
+      {
+        this.loading = true;
+        ProductsServices.getProductsPaginate({size:this.size_paginate, url:url})
+                .then(res=> {
+                  this.table_data =  res.data;
+                  this.header = ['Id','','Nombre', 'Precio', 'Codigo de barra', 'Categoria'];
+                  var pagination = res;
+                  delete res['data'];
+                  this.pagination = res;
+                })
+                .catch(err => {
+                  this.$notify({
+                    group: 'foo',
+                    title: 'Categoria',
+                    text: err.response.data.message,
+                    type: 'warn ',
+                  });
+                })
+                .finally(()=> {
+                  this.loading = false;
+                })
+      },
+      EditProduct(data)
+      {
+        this.showForm = !this.showForm;
+        this.$refs.ProductForm.ProductDataForEdit(data);
+      },
+      insertProduct(data)
+      {
+        this.loading = true;
+        ProductsServices.insertProduct(data)
+                .then(res=> {
+                  this.$notify({
+                    group: 'foo',
+                    title: 'Operación Realizada',
+                    text: 'El producto se ingreso con exito',
+                    type: 'success ',
+                  });
+                  this.showForm = !this.showForm;
+                  this.$refs.ProductForm.cleanForm();
+                })
+                .catch(err => {
+                  this.$notify({
+                    group: 'foo',
+                    title: 'Productos',
+                    text: err.response.data.message,
+                    type: 'warn ',
+                  });
+                })
+                .finally(()=> {
+                  this.loading = false;
+                })
+      },
+      CategoryName(CategoryId)
+      {
+        var found =  this.categories.find(category => category.id == CategoryId)
+        if(found){
+          return found.name
+        }
+      },
+      editProduct(data)
+      {
+        this.loading = true;
+        ProductsServices.editProduct(data)
+                .then(res=> {
+                  this.$notify({
+                    group: 'foo',
+                    title: 'Operación Realizada',
+                    text: 'El producto se edito con exito',
+                    type: 'success ',
+                  });
+                  this.getProductsPaginate();
+                  this.$refs.ProductForm.cleanForm();
+                })
+                .catch(err => {
+                  this.$notify({
+                    group: 'foo',
+                    title: 'Productos',
+                    text: err.response.data.message,
+                    type: 'warn ',
+                  });
+                })
+                .finally(()=> {
+                  this.loading = false;
+                  this.showForm = !this.showForm;
+                })
+      },
+      deleteProduct(data){
+        this.loading = true;
+        ProductsServices.deleteProduct(data)
+                .then(res => {
+                  this.$notify({
+                    group: 'foo',
+                    title: 'Operación Realizada',
+                    text: 'El producto se elimino con exito',
+                    type: 'success ',
+                  });
+                  this.getProductsPaginate();
+                })
+                .catch(err => {
+                  this.$notify({
+                    group: 'foo',
+                    title: 'Productos',
+                    text: err.response.data.message,
+                    type: 'warn ',
+                  });
+                })
+                .finally(()=> {
+                  this.loading = false;
+                })
+      },
+    },
+    created() {
+      this.getProductsPaginate();
+      this.$store.dispatch('categories/getCategories');
     }
   }
 </script>

@@ -2,13 +2,15 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { AlertModule } from "./modules/alert";
 import {AccountModule} from "./modules/Account";
+import {CategoriesModules} from "./modules/Categories";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
     alert: AlertModule,
-    account: AccountModule
+    account: AccountModule,
+    categories:CategoriesModules
   },
   state: {},
   mutations: {},

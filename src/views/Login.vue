@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <button type="submit"
                                 class="btn btn-primary btn-block"
-                                :disabled="isPetition" >Inicio de sesion<i :class="isPetition ? 'icon-spinner2 spinner' : 'icon-circle-right2 ml-2' "></i></button>
+                                :disabled="isPetition" >{{isPetition ? '' : 'Inicio de sesion' }}<i :class="isPetition ? 'icon-spinner2 spinner' : 'icon-circle-right2 ml-2' "></i></button>
                     </div>
 
                     <div class="text-center">

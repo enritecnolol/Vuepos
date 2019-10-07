@@ -55,7 +55,7 @@
               <a href="#" class="dropdown-item">
                 <i class="icon-cog5"></i> Account settings
               </a>
-              <a href="#" class="dropdown-item" @click="logout">
+              <a href="#"  class="dropdown-item" @click="logout">
                 <i class="icon-switch2"></i> Logout
               </a>
             </div>

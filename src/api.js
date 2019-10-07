@@ -9,6 +9,13 @@ export const apis = {
       insert:'category',
       edit:'category',
       delete:'category'
+    },
+    products:{
+      all:'products',
+      all_paginate:'products/paginate',
+      insert:'product',
+      edit:'product',
+      delete:'product'
     }
   }
 };

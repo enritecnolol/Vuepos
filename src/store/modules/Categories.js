@@ -6,14 +6,17 @@ export const CategoriesModules = {
         categories:[]
     },
     mutations:{
-
+        SET_CATEGORIES(state, data)
+        {
+            state.categories = data
+        }
     },
     actions:{
         getCategories({commit, dispatch}){
             return new Promise((resolve, reject)=>{
                 CategoriesServices.getCategories()
                     .then(res=>{
-                        commit('')
+                        commit('SET_CATEGORIES', res);
                         resolve(res);
                     })
                     .catch(err => {

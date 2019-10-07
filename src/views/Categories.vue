@@ -30,6 +30,7 @@
             <standardTable
                            v-if="!showForm"
                            :header="header"
+                           :loading="loading"
                            :data="table_data"
                            :pagination="pagination"
                            style="margin-top: 20px"
@@ -95,6 +96,7 @@
                             text: 'La categoria se elimino con exito',
                             type: 'success ',
                         });
+                        this.$store.dispatch('categories/getCategories');
                         this.getCategoriesPaginate();
                     })
                     .catch(err => {
@@ -120,6 +122,7 @@
                             type: 'success ',
                         });
                         this.getCategoriesPaginate();
+                        this.$store.dispatch('categories/getCategories');
                         this.$refs.CategoriesForm.cleanForm();
                     })
                     .catch(err => {
@@ -145,6 +148,8 @@
                             text: 'La categoria se ingreso con exito',
                             type: 'success ',
                         });
+                        this.showForm = !this.showForm;
+                        this.$store.dispatch('categories/getCategories');
                         this.$refs.CategoriesForm.cleanForm();
                     })
                     .catch(err => {

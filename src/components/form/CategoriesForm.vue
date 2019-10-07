@@ -7,6 +7,7 @@
                     <input
                             style="width: 300px"
                             type="text"
+                            autofocus
                             class="form-control"
                             id="inputCode"
                             placeholder="Nombre categoria"
@@ -70,7 +71,7 @@
                 this.form.id = '';
                 this.form.name = '';
             }
-        }
+        },
     }
 </script>
 

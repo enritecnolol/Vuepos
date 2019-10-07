@@ -8,8 +8,16 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(row, index) in data" :key="index">
-                <td v-for="(item, key) in row" :key="key">{{item}}</td>
+            <tr v-if="loading">
+                <td :colspan="header.length">
+                    <div class="text-center">
+                        <i class="icon-spinner2 spinner" style="font-size: 50px"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr v-else v-for="(row, index) in data" :key="index">
+                <td v-for="(item, key) in row" :key="key" v-if="!editBody">{{item}}</td>
+                <slot name="customization-body" :data="row"></slot>
                 <slot name="extra-td" :data="row"></slot>
             </tr>
             </tbody>
@@ -29,7 +37,7 @@
                     @click="changePage({action: pageNumber > pagination.current_page ? 'next':'previous',page:pageNumber})"
                     :class="{active: pagination.current_page === pageNumber}"
                     v-for="(pageNumber, index) in pagination.last_page"
-                    v-if="Math.abs(pageNumber-pagination.current_page) < 2 || pageNumber == pagination.last_page - 1 || pageNumber == 1"
+                    v-if="Math.abs(pageNumber-pagination.current_page) < 3 || pageNumber == pagination.last_page - 1 || pageNumber == 1"
                     :key="index">
                     <a class="page-link"
                        style="color:black;"
@@ -62,6 +70,13 @@
             },
             pagination:{
                 type:Object
+            },
+            loading:{
+                type:Boolean
+            },
+            editBody:{
+                type:Boolean,
+                default:false
             }
         },
         methods:{
