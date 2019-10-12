@@ -6,12 +6,17 @@ export const ProductsServices = {
     insertProduct,
     getProductsPaginate,
     editProduct,
-    deleteProduct
+    deleteProduct,
+    SearchProductOrBarcode
 };
 
-function getProducts() {
+function getProducts(category) {
     return new Promise((resolve, reject)=>{
-        http.get(apis.routes.products.all)
+        http.get(apis.routes.products.all, {
+            params:{
+                category
+            }
+        })
             .then(res=>{
                 resolve(res.data.data);
             })
@@ -69,6 +74,22 @@ function deleteProduct(Product) {
         })
             .then(res=>{
                 resolve(res);
+            }).catch(err =>{
+            reject(err);
+
+        })
+    })
+}
+
+function SearchProductOrBarcode(search) {
+    return new Promise((resolve, reject)=>{
+        http.get(apis.routes.products.search,{
+            params:{
+                search:search
+            }
+        })
+            .then(res=>{
+                resolve(res.data.data);
             }).catch(err =>{
             reject(err);
 

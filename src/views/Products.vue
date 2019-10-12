@@ -78,6 +78,7 @@
   import { ProductsServices } from "../service/ProductsService";
   import standardTable from "../components/table/standardTable";
   import { mapState } from 'vuex'
+  import { isMobile } from 'mobile-device-detect';
   export default {
     components:{
       ProductForm,

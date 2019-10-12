@@ -26,6 +26,7 @@
         <nav
                 aria-label="Page navigation example"
                 style="float: right"
+                v-if="makePagination"
         >
             <ul class="pagination">
                 <li class="page-item">
@@ -62,6 +63,10 @@
     export default {
         name:'standardTable',
         props:{
+            makePagination:{
+              type:Boolean,
+              default:true
+            },
             header:{
                 type:Array
             },

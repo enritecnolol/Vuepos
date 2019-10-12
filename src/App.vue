@@ -85,9 +85,11 @@ import "bootstrap";
 import "./assets/global_assets/js/plugins/loaders/blockui.min.js";
 import "./assets/global_assets/js/plugins/ui/slinky.min.js";
 import "./assets/global_assets/js/plugins/ui/sticky.min.js";
-import "./assets/css/animate.css";
 import "./assets/global_assets/js/plugins/extensions/jquery_ui/interactions.min.js";
 import "./assets/js/app.js";
+
+import "./assets/css/animate.css";
+
 import {http} from "./http/axios";
 import navbar from "./components/layout/navbar";
 import secondNavBar from "./components/layout/secondNavBar";
@@ -123,6 +125,12 @@ export default {
 
   body {
     /*background: url('./assets/images/stripes-light.png') repeat;*/
-    min-width: 600px;
+    min-width: 100%;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
   }
 </style>

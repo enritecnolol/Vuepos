@@ -7,6 +7,7 @@ export const AccountModule = {
         auth_user: JSON.parse(localStorage.getItem('user')) || null,
         auth_token: localStorage.getItem('token') || null,
         auth_pending: false,
+        loading:false
     },
     mutations: {
         SET_TOKEN (state, token) {
@@ -18,8 +19,14 @@ export const AccountModule = {
         SET_AUTH_PENDING (state, loading) {
             state.auth_pending = loading;
         },
+        SET_LOADING(state, loading) {
+            state.auth_pending = loading;
+        },
     },
     actions: {
+        loading({commit, dispatch}, status){
+
+        },
         login ({commit, dispatch}, {email, password}) {
             commit('SET_AUTH_PENDING', true);
             return new Promise((resolve, reject)=>{

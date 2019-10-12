@@ -15,7 +15,8 @@ export const apis = {
       all_paginate:'products/paginate',
       insert:'product',
       edit:'product',
-      delete:'product'
+      delete:'product',
+      search:'products/search'
     }
   }
 };

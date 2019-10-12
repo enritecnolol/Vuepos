@@ -3,12 +3,17 @@ import { CategoriesServices } from "../../service/CategoriesServices";
 export const CategoriesModules = {
     namespaced: true,
     state:{
-        categories:[]
+        categories:[],
+        categorySelected:''
     },
     mutations:{
         SET_CATEGORIES(state, data)
         {
             state.categories = data
+        },
+        SET_CATEGORY_SELECTED(state, data)
+        {
+            state.categorySelected =  data
         }
     },
     actions:{
@@ -23,7 +28,12 @@ export const CategoriesModules = {
                         reject(err)
                     })
             })
+        },
+        changeCategorySelected({commit, dispatch}, data)
+        {
+            commit('SET_CATEGORY_SELECTED', data)
         }
+
     },
     getters:{
 
