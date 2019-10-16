@@ -5,6 +5,7 @@ import {AccountModule} from "./modules/Account";
 import {CategoriesModules} from "./modules/Categories";
 import {ProductsModules} from "./modules/Products";
 import {CartModule} from "./modules/Cart";
+import { ScreenDevicesModule } from "./ScreenDevices";
 
 Vue.use(Vuex);
 
@@ -14,7 +15,8 @@ export default new Vuex.Store({
     account: AccountModule,
     categories:CategoriesModules,
     products:ProductsModules,
-    cart:CartModule
+    cart:CartModule,
+    screen:ScreenDevicesModule
   },
   state: {},
   mutations: {},

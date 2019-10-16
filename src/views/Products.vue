@@ -78,7 +78,7 @@
   import { ProductsServices } from "../service/ProductsService";
   import standardTable from "../components/table/standardTable";
   import { mapState } from 'vuex'
-  import { isMobile } from 'mobile-device-detect';
+
   export default {
     components:{
       ProductForm,
@@ -146,7 +146,6 @@
                 .then(res=> {
                   this.table_data =  res.data;
                   this.header = ['Id','','Nombre', 'Precio', 'Codigo de barra', 'Categoria'];
-                  var pagination = res;
                   delete res['data'];
                   this.pagination = res;
                 })
@@ -171,7 +170,7 @@
       {
         this.loading = true;
         ProductsServices.insertProduct(data)
-                .then(res=> {
+                .then(()=> {
                   this.$notify({
                     group: 'foo',
                     title: 'Operación Realizada',
@@ -204,7 +203,7 @@
       {
         this.loading = true;
         ProductsServices.editProduct(data)
-                .then(res=> {
+                .then(()=> {
                   this.$notify({
                     group: 'foo',
                     title: 'Operación Realizada',
@@ -230,7 +229,7 @@
       deleteProduct(data){
         this.loading = true;
         ProductsServices.deleteProduct(data)
-                .then(res => {
+                .then(() => {
                   this.$notify({
                     group: 'foo',
                     title: 'Operación Realizada',

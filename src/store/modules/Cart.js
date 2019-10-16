@@ -1,7 +1,9 @@
+import moment from '../../lib/moment'
 export const CartModule = {
     namespaced: true,
     state: {
-        cartItems:[]
+        cartItems:[],
+        holdCart:JSON.parse(localStorage.getItem('holdCart')) || []
     },
     getters: {
         ItemsQuantity(state)
@@ -61,6 +63,10 @@ export const CartModule = {
         REMOVE_ALL_ITEM(state)
         {
             state.cartItems = [];
+        },
+        SET_CART_ITEMS(state, cart)
+        {
+            state.cartItems = cart;
         }
     },
     actions: {
@@ -86,6 +92,61 @@ export const CartModule = {
         removeAllItems({ commit, state })
         {
             commit("REMOVE_ALL_ITEM");
+        },
+        holdCartSave({ commit, state }, description)
+        {
+            var array = [];
+            array = state.holdCart;
+            array.push({
+                cart:state.cartItems,
+                description:description,
+                dateTime: moment().format('LLLL'),
+            });
+            localStorage.setItem('holdCart', JSON.stringify(array));
+            commit("REMOVE_ALL_ITEM");
+        },
+        passToCart({ commit, state }, {index, cartItem, currentCartItemsMoveToHoldSale})
+        {
+            var HoldSaleSelected = [];
+            var currentCartItems= [];
+            var HoldSaleList = [];
+
+            return new Promise((resolve, reject) => {
+
+                HoldSaleList = state.holdCart; // Hold Sale List
+                HoldSaleSelected = state.holdCart[index]; // this is the hold sale selected on the view
+                if (currentCartItemsMoveToHoldSale)
+                {
+                    if(state.cartItems.length != 0){ // asking if cartItems has items in list
+                        currentCartItems = state.cartItems;
+
+                        HoldSaleList.push({ // Now adding the new Items the was on the cart before selected the hold sale
+                            cart:currentCartItems,
+                            description:'',
+                            dateTime: moment().format('LLLL'),
+                        });
+                    }
+                }
+
+                HoldSaleList.splice(index, 1); // Here deleting from Hold Sale list the item that was selected
+
+                localStorage.setItem('holdCart', JSON.stringify(HoldSaleList));
+
+                commit('SET_CART_ITEMS', cartItem.cart); // equaling the cart items to the hold sale that was selected
+
+                resolve();
+
+            })
+
+        },
+        removeHoldSale({ commit, state }, {index, cartItem})
+        {
+            var HoldSaleList = [];
+
+            HoldSaleList = state.holdCart;
+            HoldSaleList.splice(index, 1);
+
+            localStorage.setItem('holdCart', JSON.stringify(HoldSaleList));
         }
 
     }

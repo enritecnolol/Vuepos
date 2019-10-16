@@ -41,6 +41,13 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
+      path: "/holdSale",
+      name: "holdSale",
+      meta: { requiresAuth: true },
+      component: () => import("../views/HoldSale.vue"),
+      beforeEnter: requireAuth
+    },
+    {
       path: "/login",
       name: "Login",
       component:Login,

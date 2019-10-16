@@ -1,5 +1,5 @@
 <template>
-    <div class="table-responsive" style="height: 313px;margin-bottom: 10px">
+    <div class="table-responsive" style="height: 390px;margin-bottom: 10px">
         <table class="table table-sm">
             <thead>
             <tr>
@@ -33,7 +33,11 @@
             })
         },
         methods:{
-
+            height()
+            {
+                this.$store.state.screen.width;
+                this.$store.state.screen.height;
+            }
         }
     }
 </script>

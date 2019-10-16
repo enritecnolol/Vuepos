@@ -2,31 +2,30 @@
   <div id="app">
     <template>
       <navbar v-if="isLogged" />
-      <secondNavBar  v-if="isLogged"/>
+      <secondNavBar v-if="isLogged"/>
 
-<!--      <div class="page-header">-->
-<!--        <div class="page-header-content header-elements-md-inline">-->
-<!--          <div class="page-title d-flex">-->
-<!--            <h4>-->
-<!--              <i class="icon-arrow-left52 mr-2"></i>-->
-<!--              <span class="font-weight-semibold">Home</span>-->
-<!--              - test-->
-<!--            </h4>-->
-<!--            <a href="#" class="header-elements-toggle text-default d-md-none">-->
-<!--              <i class="icon-more"></i>-->
-<!--            </a>-->
-<!--          </div>-->
+      <div class="page-header" v-if="$route.name != 'home'">
+        <div class="page-header-content header-elements-md-inline">
+          <div class="page-title d-flex">
+            <h4>
+              <i class="icon-arrow-left52 mr-2"></i>
+              <span class="font-weight-semibold">{{routerName($route.name)}}</span>
+            </h4>
+            <a href="#" class="header-elements-toggle text-default d-md-none">
+              <i class="icon-more"></i>
+            </a>
+          </div>
 
-<!--          <div class="header-elements d-none py-0 mb-3 mb-md-0">-->
-<!--            <div class="breadcrumb">-->
-<!--              <a href="index.html" class="breadcrumb-item">-->
-<!--                <i class="icon-home2 mr-2"></i> Home-->
-<!--              </a>-->
-<!--              <span class="breadcrumb-item active">test</span>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+          <div class="header-elements d-none py-0 mb-3 mb-md-0">
+            <div class="breadcrumb">
+              <a href="index.html" class="breadcrumb-item">
+                <i class="icon-home2 mr-2"></i> Home
+              </a>
+              <span class="breadcrumb-item active">test</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Page content -->
       <div class="page-content pt-0">
@@ -45,6 +44,7 @@
 
       <div
         class="navbar navbar-expand-lg navbar-light d-none d-lg-block d-xl-block navbar-static-bottom navbar-fixed-bottom"
+        v-if="$route.name != 'home'"
       >
         <div class="text-center d-lg-none w-100">
           <button
@@ -100,13 +100,39 @@ export default {
     navbar,
     secondNavBar
   },
+  data()
+  {
+    return{
+      window: {
+        width: 0,
+        height: 0
+      }
+    }
+  },
   created(){
     this.setupHttpClient();
+    this.handleResize();
   },
   methods: {
+    handleResize() {
+      this.$store.dispatch('screen/ScreenSize', {
+        width:window.innerWidth,
+        height:window.innerHeight
+      });
+      console.log(window.innerWidth + " - " + window.innerHeight)
+    },
     setupHttpClient() {
       http.setToken(localStorage.getItem('token'));
     },
+    routerName(name)
+    {
+      var names = {
+        holdSale:'Orden en espera',
+        products:'Productos',
+        home:'Inicio'
+      }
+      return names[name];
+    }
   },
   computed:{
     isLogged () {

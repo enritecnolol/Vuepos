@@ -2,27 +2,23 @@
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-sm">
                     <tbody>
                     <tr>
                         <th><b>SubTotal</b></th>
-                        <td>${{formatMoney(SubTotal)}}</td>
-                        <td>{{ItemsQuantity}} items</td>
+                        <td><div class="" style="float: right">${{formatMoney(SubTotal)}}</div></td>
                     </tr>
                     <tr>
                         <th><b>Tax</b></th>
-                        <td>$0.00</td>
-                        <td></td>
+                        <td><div class="" style="float: right">$0.00</div></td>
                     </tr>
                     <tr>
                         <th><b>Discount</b></th>
-                        <td>0%</td>
-                        <td></td>
+                        <td><div class="" style="float: right">0%</div></td>
                     </tr>
                     <tr>
                         <th><b>Total</b></th>
-                        <td>${{formatMoney(Total)}}</td>
-                        <td></td>
+                        <td><div class="" style="float: right">${{formatMoney(Total)}}</div></td>
                     </tr>
                     </tbody>
                 </table>
