@@ -32,8 +32,10 @@
                             <button type="button"
                                     :disabled="parseFloat(Tendered_format) - parseFloat(Total) < 0"
                                     class="btn btn-lg btn-success"
-                                    \style="width: 100%;font-size: 30px">
-                                <i class="icon-cash3" style="font-size: 35px"></i>
+                                    @click="PayInvoice"
+                                    style="width: 100%;font-size: 30px">
+
+                                <i :class="loading ? 'icon-spinner2 spinner' : 'icon-cash3'" style="font-size: 35px"></i>
                                 <b> Pagar</b>
                             </button>
                         </div>
@@ -77,14 +79,46 @@
         data()
         {
             return {
-                tendered:''
+                tendered:'',
+                loading:false
             }
         },
         methods:{
-          pressNumber(num)
-          {
-              this.tendered+=num;
-          }
+            pressNumber(num)
+            {
+                if(!this.loading){
+                    this.tendered+=num;
+                }
+            },
+            PayInvoice()
+            {
+                this.loading = true;
+                this.$store.dispatch('cart/PayInvoice', {
+                    total:this.Total,
+                    cash:this.Tendered_format,
+                    returns:this.Change
+                })
+                    .then((res)=> {
+                        this.$notify({
+                            group: 'foo',
+                            title: 'Operación realizada',
+                            text: 'Factura guardada con exito',
+                            type: 'success',
+                        });
+                        $("#modal .close").click()
+                    })
+                    .catch((err)=> {
+                        this.$notify({
+                            group: 'foo',
+                            title: 'Facturacion',
+                            text: 'Error al realizar la factura',
+                            type: 'warn',
+                        });
+                    })
+                    .finally(()=> {
+                        this.loading = false;
+                    })
+            }
         },
         computed:{
             Total()

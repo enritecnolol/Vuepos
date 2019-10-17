@@ -1,4 +1,6 @@
 import moment from '../../lib/moment'
+import { CartServices } from "../../service/CartServices";
+
 export const CartModule = {
     namespaced: true,
     state: {
@@ -147,7 +149,25 @@ export const CartModule = {
             HoldSaleList.splice(index, 1);
 
             localStorage.setItem('holdCart', JSON.stringify(HoldSaleList));
-        }
+        },
 
+        PayInvoice({ commit, state }, {total,cash,returns})
+        {
+            return new Promise ((resolve, reject) => {
+                CartServices.PayInvoice({
+                    total:total,
+                    cash:cash,
+                    returns:returns,
+                    products:state.cartItems
+                })
+                    .then(res=>{
+                        commit("REMOVE_ALL_ITEM");
+                        resolve(res);
+                    })
+                    .catch(err => {
+                        reject(err)
+                    })
+            });
+        }
     }
 };

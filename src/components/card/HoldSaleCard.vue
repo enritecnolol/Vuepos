@@ -103,12 +103,30 @@
             },
             removeHoldSale()
             {
-
-                this.$store.dispatch('cart/removeHoldSale',
-                    {
-                        index:this.index,
-                        cartItem:this.data
-                    })
+                bootbox.confirm({
+                    title: 'Ventas en espera',
+                    message: 'Estas Seguro que quieres eliminar esta venta en esperaa?',
+                    buttons: {
+                        confirm: {
+                            label: 'SI',
+                            className: 'btn-primary'
+                        },
+                        cancel: {
+                            label: 'NO',
+                            className: 'btn-link'
+                        }
+                    },
+                    callback: (result) => {
+                        if(result)
+                        {
+                            this.$store.dispatch('cart/removeHoldSale',
+                                {
+                                    index:this.index,
+                                    cartItem:this.data
+                                })
+                        }
+                    }
+                });
             }
         },
         computed:{
