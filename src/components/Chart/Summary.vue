@@ -1,5 +1,5 @@
 <template>
-    <card>
+    <card style="min-height: 110px">
         <template v-slot:card-hearder></template>
         <template v-slot:card-body>
             <div class="row">

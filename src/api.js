@@ -22,6 +22,10 @@ export const apis = {
     cart:{
       payInvoice:'billing',
       summary:'dashboard/summary'
+    },
+    dashboard:{
+      salePerMonth:'dashboard/salesPerMonth',
+      dailySales:'dashboard/DailySales'
     }
   }
 };

@@ -119,7 +119,6 @@ export default {
         width:window.innerWidth,
         height:window.innerHeight
       });
-      console.log(window.innerWidth + " - " + window.innerHeight)
     },
     setupHttpClient() {
       http.setToken(localStorage.getItem('token'));
@@ -129,7 +128,8 @@ export default {
       var names = {
         holdSale:'Orden en espera',
         products:'Productos',
-        home:'Inicio'
+        home:'Inicio',
+        dashboard:'Vista general'
       }
       return names[name];
     }

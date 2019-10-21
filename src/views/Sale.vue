@@ -1,6 +1,6 @@
 <template>
     <div class="row" style="min-height: 100%;margin-top: 10px">
-        <div class="col-md-7 col-sm-12 col-xs-12" v-show="!MobileInvoiceView">
+        <div class="col-md-12 col-lg-7 col-sm-12 col-xs-12" v-show="!MobileInvoiceView">
             <card :loading="loading">
                 <template v-slot:card-header>
                     <div class="row">
@@ -11,9 +11,9 @@
                     </div>
                 </template>
                 <template v-slot:card-body>
-                    <div class="container-fluid" v-dragscroll.y style="overflow-y: auto" :class="Mobile?'container-fluid-mobile':'container-fluid-normal'">
+                    <div class="container-fluid"  style="overflow-y: auto" :class="Mobile || isTablet ? isTablet ? 'container-fluid-tablet': 'container-fluid-mobile' :'container-fluid-normal'">
                         <div class="row">
-                            <div class="col-sm col-xs" :class="Mobile ? 'col' : 'col-md-3'" style="margin-bottom: 20px" v-for="(product, index) in products" :key="index">
+                            <div class="col-sm col-md-3 col-xs col-lg-2" :class="Mobile ? 'col' : ''" style="margin-bottom: 20px" v-for="(product, index) in products" :key="index">
                                     <product-card :product="product" />
                             </div>
                             <div class="col-md-12 col-sm-12" v-if="products.length == 0" style="margin-top: 40px">
@@ -23,7 +23,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" v-if="Mobile" style="margin-top: 10px">
+                    <div class="row" v-if="Mobile || isTablet" style="margin-top: 10px">
                         <div class="col-md-12">
                             <button
                                     :disabled="Total<=0"
@@ -36,7 +36,7 @@
                 </template>
             </card>
         </div>
-        <div class="col-md-5 col-sm-12 col-xs-12" v-show="!Mobile || MobileInvoiceView">
+        <div class="col-md-12 col-lg-5 col-sm-12 col-xs-12" v-show="!Mobile || MobileInvoiceView">
             <card>
                 <template v-slot:card-header>
                     <div class="row">
@@ -273,6 +273,9 @@
 
     .container-fluid-mobile{
         height: 360px;
+    }
+    .container-fluid-tablet{
+        height: 560px;
     }
 
     .container-fluid-normal{

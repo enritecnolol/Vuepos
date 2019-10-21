@@ -3,6 +3,12 @@
         <div class="col-md-3" v-for="(item, index) in summary" :key="index">
             <Summary :title="item.title" :from_date="item.from_date" :to_date="item.to_date" />
         </div>
+        <div class="col-md-6" style="margin-top: 10px">
+            <SalePerMoth />
+        </div>
+        <div class="col-md-6" style="margin-top: 10px">
+            <DailySales />
+        </div>
     </div>
 </template>
 
@@ -10,11 +16,16 @@
     import moment from '../lib/moment'
     import card from "../components/card";
     import Summary from "../components/Chart/Summary";
+    import SalePerMoth from "../components/Chart/SalePerMoth";
+    import DailySales from "../components/Chart/DailySales";
+
     export default {
         name: "Dashboard",
         components:{
             card,
-            Summary
+            Summary,
+            SalePerMoth,
+            DailySales
         },
         data () {
             return {
