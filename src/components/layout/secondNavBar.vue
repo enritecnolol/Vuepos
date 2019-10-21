@@ -27,6 +27,16 @@
           </li>
           <li class="nav-item">
             <router-link
+                    to="/dashboard"
+                    class="navbar-nav-link"
+                    :class="{'active' : $route.name === 'dashboard'}"
+            >
+              <i class="icon-chart mr-2"></i>
+              Dashboard
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
                     to="/products"
                     class="navbar-nav-link"
                     :class="{'active' : $route.name === 'products'}"

@@ -14,11 +14,6 @@
                         <i :class="showForm ? 'icon-chevron-down' :'icon-plus22'"></i>
                         {{ showForm ? 'Ocultar':'Nueva categoria' }}
                     </button>
-                    <select class="form-control" style="width: 100px" v-model="size_paginate" v-if="!showForm">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                    </select>
                 </div>
             </div>
             <CategoriesForm ref="CategoriesForm"
@@ -35,6 +30,7 @@
                            :pagination="pagination"
                            style="margin-top: 20px"
                            @changePage="changePage"
+                           @size_paginateChange="size_paginateChange"
             >
                 <template v-slot:extra-th>
                     <th></th>
@@ -75,6 +71,10 @@
             }
         },
         methods:{
+            size_paginateChange(size)
+            {
+                this.size_paginate = size;
+            },
             EditCategory(data){
                 this.showForm = !this.showForm;
                 this.$refs.CategoriesForm.CategoryDataForEdit(data);

@@ -38,7 +38,7 @@
           <!-- /content area -->
         </div>
         <!-- /main content -->
-        <notifications group="foo" position="bottom right"/>
+        <notifications group="foo" position="top right"/>
       </div>
       <!-- /page content -->
 
@@ -150,7 +150,7 @@ export default {
   }
 
   body {
-    /*background: url('./assets/images/stripes-light.png') repeat;*/
+    background: url('./assets/images/stripes-light.png') repeat;
     min-width: 100%;
   }
   .fade-enter-active, .fade-leave-active {

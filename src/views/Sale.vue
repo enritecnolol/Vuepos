@@ -1,6 +1,6 @@
 <template>
     <div class="row" style="min-height: 100%;margin-top: 10px">
-        <div class="col-md-7 col-sm-12 col-xs-12">
+        <div class="col-md-7 col-sm-12 col-xs-12" v-show="!MobileInvoiceView">
             <card :loading="loading">
                 <template v-slot:card-header>
                     <div class="row">
@@ -11,10 +11,10 @@
                     </div>
                 </template>
                 <template v-slot:card-body>
-                    <div class="container-fluid">
+                    <div class="container-fluid" v-dragscroll.y style="overflow-y: auto" :class="Mobile?'container-fluid-mobile':'container-fluid-normal'">
                         <div class="row">
                             <div class="col-sm col-xs" :class="Mobile ? 'col' : 'col-md-3'" style="margin-bottom: 20px" v-for="(product, index) in products" :key="index">
-                                <product-card :product="product" />
+                                    <product-card :product="product" />
                             </div>
                             <div class="col-md-12 col-sm-12" v-if="products.length == 0" style="margin-top: 40px">
                                 <div class="text-center">
@@ -23,13 +23,26 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" v-if="Mobile" style="margin-top: 10px">
+                        <div class="col-md-12">
+                            <button
+                                    :disabled="Total<=0"
+                                    type="button"
+                                    class="btn btn-success btn-lg"
+                                    @click="MobileInvoiceView = true"
+                                    style="width: 100%;height: 60px">Facturar<i class="icon-file-text ml-2"  style="font-size: 30px;"></i></button>
+                        </div>
+                    </div>
                 </template>
             </card>
         </div>
-        <div class="col-md-5 col-sm-12 col-xs-12">
+        <div class="col-md-5 col-sm-12 col-xs-12" v-show="!Mobile || MobileInvoiceView">
             <card>
                 <template v-slot:card-header>
                     <div class="row">
+                        <div class="col-md-12" v-if="Mobile">
+                            <i class="icon-reply" style="font-size: 30px" @click="MobileInvoiceView = false"></i>
+                        </div>
                         <div class="col-md-12 text-center">
                             Factura
                         </div>
@@ -70,11 +83,12 @@
                 </template>
             </card>
         </div>
-        <modalInvoice />
+        <modalInvoice @cardProduct="cardProductView"/>
     </div>
 </template>
 
 <script>
+    import { dragscroll } from 'vue-dragscroll'
     import { isMobile, isTablet } from 'mobile-device-detect';
     import "../assets/css/bootstrap_horizon.css"
     import productCard from "../components/ProductCard/productCard";
@@ -90,6 +104,9 @@
 
     export default {
         name: "home",
+        directives:{
+            dragscroll
+        },
         components: {
             productCard,
             categorytab,
@@ -103,9 +120,17 @@
         data(){
             return {
                 loading:false,
+                MobileInvoiceView:false
             }
         },
         methods:{
+            cardProductView()
+            {
+                if(this.Mobile)
+                {
+                    this.MobileInvoiceView = false;
+                }
+            },
             formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",")
             {
                 try {
@@ -246,4 +271,11 @@
         border-bottom: 3px solid #ec407a;
     }
 
+    .container-fluid-mobile{
+        height: 360px;
+    }
+
+    .container-fluid-normal{
+        height: 660px;
+    }
 </style>

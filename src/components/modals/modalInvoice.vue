@@ -5,7 +5,7 @@
         </template>
         <template v-slot:modalBody>
             <div class="row">
-                <div class="col-md-12" style="margin-bottom: 10px">
+                <div class="col-md-12 " style="margin-bottom: 10px">
                     <div class="row">
                         <div class="col-md-1">
                             <i class="icon-user-minus" style="font-size: 40px"></i>
@@ -15,33 +15,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-12 col-xs-12">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
                             <h3>Precio a pagar:  <b style="color: green;float:right;font-size: 28px">$ {{ parseFloat(Total).formatMoney(2)}}</b></h3>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
                             <h3>Entregado:  <b style="color: green;float:right;font-size: 28px">$ {{parseFloat(Tendered_format).formatMoney(2)}}</b></h3>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
                             <h3>Devuelta:  <b style="color: green;float:right;font-size: 28px">$ {{parseFloat(Change).formatMoney(2)}}</b></h3>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 10px">
-                        <div class="col-md-12" style="bottom: 0;position: absolute">
-                            <button type="button"
-                                    :disabled="parseFloat(Tendered_format) - parseFloat(Total) < 0"
-                                    class="btn btn-lg btn-success"
-                                    @click="PayInvoice"
-                                    style="width: 100%;font-size: 30px">
+                    <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                        <button type="button"
+                                :disabled="parseFloat(Tendered_format) - parseFloat(Total) < 0"
+                                class="btn btn-lg btn-success"
+                                @click="PayInvoice"
+                                style="width: 100%;font-size: 30px">
 
-                                <i :class="loading ? 'icon-spinner2 spinner' : 'icon-cash3'" style="font-size: 35px"></i>
-                                <b> Pagar</b>
-                            </button>
-                        </div>
+                            <i :class="loading ? 'icon-spinner2 spinner' : 'icon-cash3'" style="font-size: 35px"></i>
+                            <b> Pagar</b>
+                        </button>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-12 col-xs-12" style="margin-top: 10px">
                     <table class="table table-bordered">
                         <tr>
                             <td class="text-center td-hover" @click="pressNumber(1)"><b style="font-size: 30px">1</b></td>
@@ -106,6 +104,8 @@
                             type: 'success',
                         });
                         $("#modal .close").click()
+                        this.tendered='';
+                        this.$emit('cardProduct');
                     })
                     .catch((err)=> {
                         this.$notify({

@@ -25,6 +25,21 @@ function getProducts(category) {
             })
     })
 }
+function getProductsSearched(category) {
+    return new Promise((resolve, reject)=>{
+        http.get(apis.routes.products.all, {
+            params:{
+                category
+            }
+        })
+            .then(res=>{
+                resolve(res.data.data);
+            })
+            .catch(err=>{
+                reject(err);
+            })
+    })
+}
 
 function getProductsPaginate({size, url}) {
     return new Promise((resolve, reject)=>{

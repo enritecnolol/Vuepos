@@ -17,9 +17,11 @@ export const apis = {
       edit:'product',
       delete:'product',
       search:'products/search'
+
     },
     cart:{
-      payInvoice:'billing'
+      payInvoice:'billing',
+      summary:'dashboard/summary'
     }
   }
 };

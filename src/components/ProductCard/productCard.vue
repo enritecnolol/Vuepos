@@ -8,47 +8,40 @@
         </div>
         <div class="card_price" style="">
            <div class="pull-right">
-               <b style="color: white">${{formatMoney(product.price)}}&nbsp;</b>
+               <b style="color: white">${{parseFloat(product.price).formatMoney(2)}}&nbsp;</b>
+           </div>
+        </div>
+        <div class="card_count" style="" v-if="Mobile">
+           <div class="pull-right">
+               <b style="color: white">&nbsp;{{MobileItemCount}}&nbsp;</b>
            </div>
         </div>
     </div>
 </template>
 
 <script>
+    import { isMobile, isTablet } from 'mobile-device-detect';
     export default {
         props:['product'],
+        computed:{
+            MobileItemCount(){
+                var found = this.$store.state.cart.cartItems.find(e => e.id === this.product.id);
+                if(found)
+                {
+                    return found.quantity;
+                }
+
+                return 0;
+            },
+            Mobile()
+            {
+                return isMobile;
+            },
+        },
         methods:{
             productSelect()
             {
                 this.$store.dispatch('cart/addItem', this.product)
-            },
-            formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",")
-            {
-                try {
-                    decimalCount = Math.abs(decimalCount);
-                    decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
-
-                    const negativeSign = amount < 0 ? "-" : "";
-
-                    let i = parseInt(
-                        (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
-                    ).toString();
-                    let j = i.length > 3 ? i.length % 3 : 0;
-
-                    return (
-                        negativeSign +
-                        (j ? i.substr(0, j) + thousands : "") +
-                        i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) +
-                        (decimalCount
-                            ? decimal +
-                            Math.abs(amount - i)
-                                .toFixed(decimalCount)
-                                .slice(2)
-                            : "")
-                    );
-                } catch (e) {
-                    console.log(e);
-                }
             },
             toLowerCase(str)
             {
@@ -85,6 +78,14 @@
         position:absolute;
         bottom: 100px;
         border-radius: 10px 0px 10px 0px;
+    }
+    .card_count{
+        z-index: 4;
+        background-color: rgba(0, 0, 0, 0.51);
+        position:absolute;
+        bottom: 101px;
+        left: 116px;
+        border-radius: 0px 10px 0px 10px;
     }
     .card_product:hover{
         opacity: 0.8;

@@ -36,6 +36,11 @@
               />
             </div>
             <div class="col-md-12" style="margin: 10px" v-show="!showForm">
+<!--              <select class="form-control" style="width: 100px" v-model="size_paginate">-->
+<!--                <option value="5">5</option>-->
+<!--                <option value="10">10</option>-->
+<!--                <option value="25">25</option>-->
+<!--              </select>-->
               <standardTable
                       v-if="!showForm"
                       :header="header"
@@ -45,6 +50,9 @@
                       :pagination="pagination"
                       style="margin-top: 20px"
                       @changePage="changePage"
+                      :search="true"
+                      @size_paginateChange="size_paginateChange"
+                      @searchItem="searchItem"
               >
                 <template v-slot:extra-th>
                   <th></th>
@@ -53,7 +61,7 @@
                   <td>{{data.id}}</td>
                   <td><img :src="data.img" width="60" alt=""></td>
                   <td>{{data.name}}</td>
-                  <td>${{formatMoney(data.price)}}</td>
+                  <td>${{parseFloat(data.price).formatMoney(2)}}</td>
                   <td>{{data.barcode}}</td>
                   <td>{{CategoryName(data.categoria_id)}}</td>
                 </template>
@@ -100,34 +108,16 @@
         categories: state => state.categories.categories
       })
     },
-    methods:{
-      formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",")
+    watch:{
+      size_paginate()
       {
-        try {
-          decimalCount = Math.abs(decimalCount);
-          decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
-
-          const negativeSign = amount < 0 ? "-" : "";
-
-          let i = parseInt(
-                  (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
-          ).toString();
-          let j = i.length > 3 ? i.length % 3 : 0;
-
-          return (
-                  negativeSign +
-                  (j ? i.substr(0, j) + thousands : "") +
-                  i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) +
-                  (decimalCount
-                          ? decimal +
-                          Math.abs(amount - i)
-                                  .toFixed(decimalCount)
-                                  .slice(2)
-                          : "")
-          );
-        } catch (e) {
-          console.log(e);
-        }
+        this.getProductsPaginate()
+      }
+    },
+    methods:{
+      size_paginateChange(size)
+      {
+        this.size_paginate = size;
       },
       changePage({action, page})
       {
@@ -138,6 +128,21 @@
         }else{
           this.getProductsPaginate(this.pagination.path+'?page='+page)
         }
+      },
+      searchItem(search)
+      {
+        if(search == '')
+        {
+          this.getProductsPaginate();
+          return
+        }
+        this.$store.dispatch('products/getsearchProduct', search)
+                .then(res => {
+                 this.table_data = res
+                })
+                .catch(error => {
+                  console.log(error)
+                })
       },
       getProductsPaginate(url)
       {
@@ -152,7 +157,7 @@
                 .catch(err => {
                   this.$notify({
                     group: 'foo',
-                    title: 'Categoria',
+                    title: 'Productos',
                     text: err.response.data.message,
                     type: 'warn ',
                   });
