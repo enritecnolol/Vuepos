@@ -1,5 +1,7 @@
-# oficial-pos
+# FortUpPOS
+![Repo_List](src/assets/images/saleScreen.png)
 
+FortUpPOS es un Software en la nube, que permite a nuestros clientes administrar de forma inteligente sus inventarios, hacer ventas ágiles, realizar fidelización de clientes, y analítica desde su móvil, de forma rápida y fácil.
 ## Project setup
 ```
 npm install

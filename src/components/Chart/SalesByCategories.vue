@@ -28,7 +28,6 @@
                     to_date:this.to_date
                 })
                     .then(res => {
-                        console.log(res.data.data)
                         this.data = res.data.data;
                     })
                     .catch(err => {
