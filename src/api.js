@@ -25,7 +25,11 @@ export const apis = {
     },
     dashboard:{
       salePerMonth:'dashboard/salesPerMonth',
-      dailySales:'dashboard/DailySales'
+      dailySales:'dashboard/DailySales',
+      salesByCategory:'dashboard/SalesByCategory',
+      hourlySales:'dashboard/HourlySales',
+      SalesByDaysOfTheWeek:'dashboard/SalesByDaysOfTheWeek',
+      MostSellingProducts:'dashboard/MostSellingProducts',
     }
   }
 };

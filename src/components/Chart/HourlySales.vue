@@ -1,11 +1,11 @@
 <template>
     <chart-card
-            :title="'Ventas diarias'"
+            :title="'Ventas por hora'"
+            :subtitle="subtitle"
             :loading="loading"
             :chart-data="chartData"
             :options="options"
             :chartType="'bar'"
-            :subtitle="subtitle"
     />
 </template>
 
@@ -18,12 +18,12 @@
         created () {
             this.from_date = moment().startOf('month').format('YYYY-MM-DD');
             this.to_date = moment().endOf('month').format('YYYY-MM-DD');
-            this.load()
+            this.load();
         },
         methods: {
             load () {
                 this.loading = true;
-                DashboardServices.DailySales({
+                DashboardServices.HourlySales({
                     from_date:this.from_date,
                     to_date:this.to_date
                 })
@@ -60,8 +60,8 @@
 
                 for (var i in this.data)
                 {
-                        options.labels.push(this.data[i]['_day']+"-"+this.data[i]['_month']);
-                        options.datasets[0].data.push(this.data[i]['total']);
+                    options.labels.push(this.data[i]['hour_format']);
+                    options.datasets[0].data.push(this.data[i]['total']);
                 }
                 return options;
             },

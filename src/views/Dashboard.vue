@@ -1,13 +1,25 @@
 <template>
     <div class="row">
-        <div class="col-md-3" v-for="(item, index) in summary" :key="index">
+        <div class="col-md-6 col-sm-12 col-lg-3" v-for="(item, index) in summary" :key="index">
             <Summary :title="item.title" :from_date="item.from_date" :to_date="item.to_date" />
         </div>
-        <div class="col-md-6" style="margin-top: 10px">
+        <div class="col-md-6 col-sm-12 col-lg-6" style="margin-top: 10px">
             <SalePerMoth />
         </div>
-        <div class="col-md-6" style="margin-top: 10px">
+        <div class="col-md-6 col-sm-12 col-lg-6" style="margin-top: 10px">
             <DailySales />
+        </div>
+        <div class="col-md-6 col-sm-12 col-lg-6" style="margin-top: 10px">
+            <SalesByCategories />
+        </div>
+        <div class="col-md-6 col-sm-12 col-lg-6" style="margin-top: 10px">
+            <HourlySales />
+        </div>
+        <div class="col-md-6 col-sm-12 col-lg-6" style="margin-top: 10px">
+            <SalesByDaysOfTheWeek />
+        </div>
+        <div class="col-md-6 col-sm-12 col-lg-6" style="margin-top: 10px">
+            <MostSellingProducts />
         </div>
     </div>
 </template>
@@ -18,6 +30,10 @@
     import Summary from "../components/Chart/Summary";
     import SalePerMoth from "../components/Chart/SalePerMoth";
     import DailySales from "../components/Chart/DailySales";
+    import SalesByCategories from "../components/Chart/SalesByCategories";
+    import HourlySales from "../components/Chart/HourlySales";
+    import SalesByDaysOfTheWeek from "../components/Chart/SalesByDaysOfTheWeek";
+    import MostSellingProducts from "../components/Chart/MostSellingProducts";
 
     export default {
         name: "Dashboard",
@@ -25,7 +41,11 @@
             card,
             Summary,
             SalePerMoth,
-            DailySales
+            DailySales,
+            SalesByCategories,
+            HourlySales,
+            SalesByDaysOfTheWeek,
+            MostSellingProducts
         },
         data () {
             return {

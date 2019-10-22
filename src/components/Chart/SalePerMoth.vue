@@ -5,6 +5,7 @@
             :chart-data="chartData"
             :options="options"
             :chartType="'bar'"
+            :subtitle="subtitle"
     />
 </template>
 
@@ -73,8 +74,19 @@
                     maintainAspectRatio: false,
                     legend:{
                         display:false
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                return parseFloat(tooltipItem.yLabel).formatMoney(2);
+                            }
+                        }
                     }
                 }
+            },
+            subtitle()
+            {
+                return "Desde: "+this.from_date +" - "+ "hasta: "+ this.to_date
             }
         }
     }

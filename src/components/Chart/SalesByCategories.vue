@@ -1,11 +1,11 @@
 <template>
     <chart-card
-            :title="'Ventas diarias'"
+            :title="'Ventas por categoria'"
             :loading="loading"
             :chart-data="chartData"
             :options="options"
-            :chartType="'bar'"
             :subtitle="subtitle"
+            :chartType="'bar'"
     />
 </template>
 
@@ -23,11 +23,12 @@
         methods: {
             load () {
                 this.loading = true;
-                DashboardServices.DailySales({
+                DashboardServices.SalesByCategory({
                     from_date:this.from_date,
                     to_date:this.to_date
                 })
                     .then(res => {
+                        console.log(res.data.data)
                         this.data = res.data.data;
                     })
                     .catch(err => {
@@ -60,8 +61,8 @@
 
                 for (var i in this.data)
                 {
-                        options.labels.push(this.data[i]['_day']+"-"+this.data[i]['_month']);
-                        options.datasets[0].data.push(this.data[i]['total']);
+                    options.labels.push(this.data[i]['name']);
+                    options.datasets[0].data.push(this.data[i]['total']);
                 }
                 return options;
             },

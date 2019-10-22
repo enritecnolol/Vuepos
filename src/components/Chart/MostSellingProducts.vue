@@ -1,6 +1,6 @@
 <template>
     <chart-card
-            :title="'Ventas diarias'"
+            :title="'Productos más vendidos'"
             :loading="loading"
             :chart-data="chartData"
             :options="options"
@@ -23,7 +23,7 @@
         methods: {
             load () {
                 this.loading = true;
-                DashboardServices.DailySales({
+                DashboardServices.MostSellingProducts({
                     from_date:this.from_date,
                     to_date:this.to_date
                 })
@@ -60,8 +60,8 @@
 
                 for (var i in this.data)
                 {
-                        options.labels.push(this.data[i]['_day']+"-"+this.data[i]['_month']);
-                        options.datasets[0].data.push(this.data[i]['total']);
+                    options.labels.push(this.data[i]['name']);
+                    options.datasets[0].data.push(this.data[i]['count']);
                 }
                 return options;
             },
@@ -72,13 +72,6 @@
                     maintainAspectRatio: false,
                     legend:{
                         display:false
-                    },
-                    tooltips: {
-                        callbacks: {
-                            label: function(tooltipItem, data) {
-                                return parseFloat(tooltipItem.yLabel).formatMoney(2);
-                            }
-                        }
                     }
                 }
             },

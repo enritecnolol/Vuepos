@@ -2,6 +2,7 @@
     <card style="min-height: 500px">
         <template v-slot:card-header>
             <h3 style="color: #1976d2"><b>{{title}}</b></h3>
+            <small class="opacity-75 font-size-sm">{{subtitle}}</small>
         </template>
         <template v-slot:card-body>
             <div class="text-center" v-if="loading">
@@ -55,6 +56,10 @@
             chartType:{
                 type:String,
                 required:true
+            },
+            subtitle:{
+                type:String,
+                default:''
             }
         }
     }
