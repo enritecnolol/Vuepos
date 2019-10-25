@@ -6,7 +6,15 @@
             :options="options"
             :chartType="'bar'"
             :subtitle="subtitle"
-    />
+            :get-error="getError"
+            @endFiltering="endFiltering"
+    >
+        <template v-slot:filters>
+            <div class="col-lg-12">
+                <date-filters :type="'year'" @datePicked="datePicked"></date-filters>
+            </div>
+        </template>
+    </chart-card>
 </template>
 
 <script>
@@ -18,10 +26,10 @@
         created () {
             this.from_date = moment().startOf('year').format('YYYY-MM-DD');
             this.to_date = moment().endOf('year').format('YYYY-MM-DD');
-            this.load()
+            this.load();
         },
         methods: {
-            load () {
+            load() {
                 this.loading = true;
                 DashboardServices.SalePerMonth({
                     from_date:this.from_date,
@@ -78,7 +86,7 @@
                     tooltips: {
                         callbacks: {
                             label: function(tooltipItem, data) {
-                                return parseFloat(tooltipItem.yLabel).formatMoney(2);
+                                return "Monto: $"+ parseFloat(tooltipItem.yLabel).formatMoney(2);
                             }
                         }
                     }

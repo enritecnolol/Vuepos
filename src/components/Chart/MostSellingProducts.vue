@@ -6,7 +6,15 @@
             :options="options"
             :chartType="'bar'"
             :subtitle="subtitle"
-    />
+            :get-error="getError"
+            @endFiltering="endFiltering"vict
+    >
+        <template v-slot:filters>
+            <div class="col-lg-12">
+                <date-filters @datePicked="datePicked"></date-filters>
+            </div>
+        </template>
+    </chart-card>
 </template>
 
 <script>
@@ -50,7 +58,7 @@
                     labels: [],
                     datasets: [
                         {
-                            label: 'Monto',
+                            label: 'Cantidad',
                             fill: true,
                             backgroundColor: "rgb(25, 118, 210)",
                             data: []

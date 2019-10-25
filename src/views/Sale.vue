@@ -77,13 +77,15 @@
                                     type="button"
                                     class="btn btn-success btn-lg"
                                     data-toggle="modal"
-                                    data-target="#modal" style="width: 100%;height: 60px">Payment<i class="icon-checkmark2 ml-2"  style="font-size: 30px;"></i></button>
+                                    data-target="#modal"  style="width: 100%;height: 60px"
+                                    @click="clickModal(true)"
+                            >Payment<i class="icon-checkmark2 ml-2"  style="font-size: 30px;"></i></button>
                         </div>
                     </div>
                 </template>
             </card>
         </div>
-        <modalInvoice @cardProduct="cardProductView"/>
+        <modalInvoice  :openModal="openModal" @clickModal="clickModal" @cardProduct="cardProductView"/>
     </div>
 </template>
 
@@ -120,12 +122,18 @@
         data(){
             return {
                 loading:false,
-                MobileInvoiceView:false
+                MobileInvoiceView:false,
+                openModal:false
             }
         },
         methods:{
+            clickModal(state)
+            {
+              this.openModal = state
+            },
             cardProductView()
             {
+                // This is for go back to the product card list
                 if(this.Mobile)
                 {
                     this.MobileInvoiceView = false;

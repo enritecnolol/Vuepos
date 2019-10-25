@@ -6,7 +6,15 @@
             :options="options"
             :subtitle="subtitle"
             :chartType="'bar'"
-    />
+            :get-error="getError"
+            @endFiltering="endFiltering"
+    >
+        <template v-slot:filters>
+            <div class="col-lg-12">
+                <date-filters @datePicked="datePicked"></date-filters>
+            </div>
+        </template>
+    </chart-card>
 </template>
 
 <script>
@@ -76,7 +84,7 @@
                     tooltips: {
                         callbacks: {
                             label: function(tooltipItem, data) {
-                                return parseFloat(tooltipItem.yLabel).formatMoney(2);
+                                return "Monto: $"+parseFloat(tooltipItem.yLabel).formatMoney(2);
                             }
                         }
                     }

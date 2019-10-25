@@ -1,5 +1,5 @@
 <template>
-    <modal>
+    <modal @clickModal="clickModal">
         <template v-slot:modalHeader>
 
         </template>
@@ -57,7 +57,7 @@
                             <td class="text-center td-hover" @click="pressNumber(9)"><b style="font-size: 30px">9</b></td>
                         </tr>
                         <tr>
-                            <td class="text-center td-hover"><b style="font-size: 30px">.</b></td>
+                            <td class="text-center td-hover" @click="deleteTendered"><i class="icon-arrow-left7" style="font-size: 30px"></i></td>
                             <td class="text-center td-hover" @click="pressNumber(0)"><b style="font-size: 30px">0</b></td>
                             <td class="text-center td-hover" @click="tendered = ''"><b style="font-size: 30px">C</b></td>
                         </tr>
@@ -71,6 +71,7 @@
 <script>
     import modal from "./modal";
     export default {
+        props:['openModal'],
         components:{
             modal
         },
@@ -82,6 +83,10 @@
             }
         },
         methods:{
+            deleteTendered()
+            {
+                this.tendered = this.tendered.substring(0, this.tendered.length - 1);
+            },
             pressNumber(num)
             {
                 if(!this.loading){
@@ -105,6 +110,7 @@
                         });
                         $("#modal .close").click()
                         this.tendered='';
+                        this.clickModal();
                         this.$emit('cardProduct');
                     })
                     .catch((err)=> {
@@ -114,11 +120,17 @@
                             text: 'Error al realizar la factura',
                             type: 'warn',
                         });
+                        console.log(err)
                     })
                     .finally(()=> {
                         this.loading = false;
                     })
+            },
+            clickModal()
+            {
+                this.$emit('clickModal', false);
             }
+
         },
         computed:{
             Total()
@@ -133,6 +145,24 @@
             {
                 return parseFloat(this.Tendered_format) - parseFloat(this.Total) < 0 ? 0 : parseFloat(this.Tendered_format) - parseFloat(this.Total);
             }
+        },
+        created() {
+
+            window.addEventListener('keyup', (e) => {
+                if(this.openModal) {
+                    if (parseInt(e.key) >= 0 && parseInt(e.key) <= 9) {
+                        this.pressNumber(parseInt(e.key))
+                    } else if (e.key === 'Backspace') {
+                        this.deleteTendered();
+                    } else if (e.key === 'Enter') {
+                        if (parseFloat(this.Tendered_format) - parseFloat(this.Total) >= 0) {
+                            this.PayInvoice()
+                        }
+                    }
+                }
+
+            });
+
         }
 
     }

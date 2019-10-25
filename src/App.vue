@@ -4,7 +4,7 @@
       <navbar v-if="isLogged" />
       <secondNavBar v-if="isLogged"/>
 
-      <div class="page-header" v-if="$route.name != 'home'">
+      <div class="page-header" v-if="$route.name != 'home' && $route.name != 'Login'">
         <div class="page-header-content header-elements-md-inline">
           <div class="page-title d-flex">
             <h4>
@@ -18,7 +18,7 @@
 
           <div class="header-elements d-none py-0 mb-3 mb-md-0">
             <div class="breadcrumb">
-              <a href="index.html" class="breadcrumb-item">
+              <a href="#" class="breadcrumb-item">
                 <i class="icon-home2 mr-2"></i> Home
               </a>
               <span class="breadcrumb-item active">test</span>
@@ -120,9 +120,6 @@ export default {
         height:window.innerHeight
       });
     },
-    setupHttpClient() {
-      http.setToken(localStorage.getItem('token'));
-    },
     routerName(name)
     {
       var names = {
@@ -132,7 +129,21 @@ export default {
         dashboard:'Vista general'
       }
       return names[name];
-    }
+    },
+    setupHttpClient() {
+      //Set requests token
+      http.setToken(localStorage.getItem("token"));
+      //Catch unauthorized
+      http.interceptors.response.use(undefined, err => {
+        return new Promise((resolve, reject) => {
+          if (err.response.status === 401 && err.response.data.message === "Unauthenticated.") {
+            this.$store.dispatch("account/logout");
+            this.$router.push('/login');
+          }
+          reject(err);
+        });
+      });
+    },
   },
   computed:{
     isLogged () {
