@@ -55,6 +55,13 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
+      path: "/settings",
+      name: "settings",
+      meta: { requiresAuth: true },
+      component: () => import("../views/Setting.vue"),
+      beforeEnter: requireAuth
+    },
+    {
       path: "/login",
       name: "Login",
       component:Login,

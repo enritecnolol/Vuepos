@@ -68,10 +68,8 @@
 
                 for (var i in this.data)
                 {
-                    for (var index in this.data[i]){
-                        options.labels.push(index);
-                        options.datasets[0].data.push(this.data[i][index][0]);
-                    }
+                    options.labels.push(i);
+                    options.datasets[0].data.push(this.data[i][0]);
                 }
                 return options;
             },

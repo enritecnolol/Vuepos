@@ -73,9 +73,9 @@
                 <i class="icon-accessibility"></i> Accessibility
               </a>
               <div class="dropdown-divider"></div>
-              <a href="#" class="dropdown-item">
+              <router-link to="/settings" class="dropdown-item">
                 <i class="icon-gear"></i> All settings
-              </a>
+              </router-link>
             </div>
           </li>
         </ul>

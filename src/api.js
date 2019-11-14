@@ -30,6 +30,11 @@ export const apis = {
       hourlySales:'dashboard/HourlySales',
       SalesByDaysOfTheWeek:'dashboard/SalesByDaysOfTheWeek',
       MostSellingProducts:'dashboard/MostSellingProducts',
+    },
+    company:{
+      store:'company',
+      get:'company',
+      edit:'company'
     }
   }
 };

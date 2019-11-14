@@ -98,11 +98,10 @@
     import card from "../components/card";
     import { mapState } from 'vuex'
     import saleTotal from "../components/SaleTotal/saleTotal";
-    import SaleTable from "../components/table/SaleTable";
-    import productCardMobile from "../components/ProductCard/productCardMobile";
     import productSearch from "../components/search/productSearch";
     import modalInvoice from "../components/modals/modalInvoice";
     import bootbox from 'bootbox'
+    import SaleTable from "../components/table/SaleTable";
 
     export default {
         name: "home",
@@ -114,10 +113,9 @@
             categorytab,
             card,
             saleTotal,
-            SaleTable,
-            productCardMobile,
             productSearch,
-            modalInvoice
+            modalInvoice,
+            SaleTable
         },
         data(){
             return {

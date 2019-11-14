@@ -101,7 +101,7 @@
                     cash:this.Tendered_format,
                     returns:this.Change
                 })
-                    .then((res)=> {
+                    .then(() => {
                         this.$notify({
                             group: 'foo',
                             title: 'Operación realizada',
@@ -113,14 +113,13 @@
                         this.clickModal();
                         this.$emit('cardProduct');
                     })
-                    .catch((err)=> {
+                    .catch(()=> {
                         this.$notify({
                             group: 'foo',
                             title: 'Facturacion',
                             text: 'Error al realizar la factura',
                             type: 'warn',
                         });
-                        console.log(err)
                     })
                     .finally(()=> {
                         this.loading = false;

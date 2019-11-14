@@ -18,10 +18,9 @@
 
           <div class="header-elements d-none py-0 mb-3 mb-md-0">
             <div class="breadcrumb">
-              <a href="#" class="breadcrumb-item">
-                <i class="icon-home2 mr-2"></i> Home
-              </a>
-              <span class="breadcrumb-item active">test</span>
+              <router-link to="/" class="breadcrumb-item">
+                <i class="icon-home2 mr-2"></i> Inico
+              </router-link>
             </div>
           </div>
         </div>
@@ -126,7 +125,8 @@ export default {
         holdSale:'Orden en espera',
         products:'Productos',
         home:'Inicio',
-        dashboard:'Vista general'
+        dashboard:'Vista general',
+        settings:'Configuración'
       }
       return names[name];
     },
